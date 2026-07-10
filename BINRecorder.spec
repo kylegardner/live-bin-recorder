@@ -1,4 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
+import sys
 block_cipher = None
 
 a = Analysis(
@@ -18,8 +19,6 @@ a = Analysis(
     hooksconfig={},
     runtime_hooks=[],
     excludes=['tkinter', 'matplotlib', 'numpy', 'scipy'],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
     cipher=block_cipher,
     noarchive=False,
 )
@@ -51,15 +50,17 @@ coll = COLLECT(
     name='BIN Block Receiver',
 )
 
-app = BUNDLE(
-    coll,
-    name='BIN Block Receiver.app',
-    bundle_identifier='au.com.remoteaerospace.binrecorder',
-    version='1.0.0',
-    info_plist={
-        'NSHighResolutionCapable': True,
-        'NSRequiresAquaSystemAppearance': False,
-        'CFBundleShortVersionString': '1.0.0',
-        'CFBundleDisplayName': 'BIN Block Receiver',
-    },
-)
+# macOS .app bundle only
+if sys.platform == 'darwin':
+    app = BUNDLE(
+        coll,
+        name='BIN Block Receiver.app',
+        bundle_identifier='au.com.remoteaerospace.binrecorder',
+        version='1.0.0',
+        info_plist={
+            'NSHighResolutionCapable': True,
+            'NSRequiresAquaSystemAppearance': False,
+            'CFBundleShortVersionString': '1.0.0',
+            'CFBundleDisplayName': 'BIN Block Receiver',
+        },
+    )
